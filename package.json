@@ -9,9 +9,35 @@
     "posttsc:build": "cp -r src/config/ dist/config",
     "test": "NODE_CONFIG_DIR=./src/config mocha test/**/*.ts"
   },
-  "keywords": ["API", "User", "Hobbies"],
+  "keywords": [
+    "API",
+    "User",
+    "Hobbies"
+  ],
   "author": "Milton Sosa <sosamilton19@gmail.com>",
   "license": "MIT",
-  "devDependencies": {},
-  "dependencies": {}
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/config": "0.0.34",
+    "@types/express": "^4.16.1",
+    "@types/mocha": "^5.2.6",
+    "@types/mongoose": "^5.5.1",
+    "@types/supertest": "^2.0.7",
+    "@types/swagger-express-middleware": "^1.0.9",
+    "@types/swagger-ui-express": "^3.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "supertest": "^4.0.2",
+    "ts-node": "^8.1.0",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "config": "^3.1.0",
+    "express": "^4.17.0",
+    "mongoose": "^5.5.10",
+    "swagger-express-middleware": "^2.0.2",
+    "swagger-ui-express": "^4.0.4",
+    "winston": "^3.2.1"
+  }
 }
