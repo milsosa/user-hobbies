@@ -1,0 +1,17 @@
+{
+  "name": "user-hobbies",
+  "version": "1.0.0",
+  "description": "An simple RESTful API that provides the required endpoints to create, list and delete users and their hobbies.",
+  "scripts": {
+    "start": "NODE_CONFIG_DIR=./dist/config node dist/server.js",
+    "pretsc:build": "tslint -p .",
+    "tsc:build": "rm -rf ./dist && tsc --build",
+    "posttsc:build": "cp -r src/config/ dist/config",
+    "test": "NODE_CONFIG_DIR=./src/config mocha test/**/*.ts"
+  },
+  "keywords": ["API", "User", "Hobbies"],
+  "author": "Milton Sosa <sosamilton19@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
