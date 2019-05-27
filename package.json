@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "An simple RESTful API that provides the required endpoints to create, list and delete users and their hobbies.",
   "scripts": {
-    "start": "NODE_CONFIG_DIR=./dist/src/config node dist/src/server.js",
+    "start": "NODE_CONFIG_DIR=./dist/config node dist/server.js",
     "pretsc:build": "tslint -p .",
     "tsc:build": "rm -rf ./dist && tsc --build",
-    "posttsc:build": "cp -r src/config/ dist/src/config",
     "test": "NODE_CONFIG_DIR=./src/config mocha test/**/*.ts"
   },
   "keywords": [
