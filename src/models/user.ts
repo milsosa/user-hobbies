@@ -1,6 +1,7 @@
 import { Document, model, Schema } from "mongoose";
-import { IHobby } from "./hobby";
-import { CustomSchemaOptions } from "./options";
+import logger from "../services/logger";
+import Hobby, { IHobby } from "./hobby";
+import { createOptionsFor } from "./options";
 
 export interface IUser extends Document {
   id: string;
@@ -15,15 +16,21 @@ const userSchema: Schema = new Schema({
     required: true,
     type: String,
   },
-}, CustomSchemaOptions);
+}, createOptionsFor("User"));
 
-userSchema.statics.toJSON = function toJson(user: IUser) {
-  const { _id: id, ...rest} = user;
+userSchema.pre("find", function() {
+  logger.debug("Enabling population of hobbies for users find query");
+  this.populate("hobbies", "-user");
+});
 
-  return {
-    id,
-    ...rest,
-  };
-};
+userSchema.pre("findOne", function() {
+  logger.debug("Enabling population of hobbies for user find query");
+  this.populate("hobbies", "-user");
+});
+
+userSchema.post("remove", async (user: IUser) => {
+  logger.debug("Removing hobbies for user: %s", user.id);
+  await Hobby.deleteMany({ user: user.id });
+});
 
 export default model<IUser>("User", userSchema);
