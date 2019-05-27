@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import Hobby, { IHobby } from "../../models/hobby";
-import { IUser } from "../../models/user";
 
 export async function createHobby(req: Request, res: Response, next: NextFunction): Promise<void> {
   const hobby: IHobby = new Hobby({ user: req.params.userId, ...req.body });
@@ -9,34 +8,32 @@ export async function createHobby(req: Request, res: Response, next: NextFunctio
     await hobby.save();
 
     res.status(201)
-      .json(hobby.toObject({ virtuals: true }));
+      .json(hobby.toObject());
   } catch (err) {
-    // TODO: Improve handling of model errors
     next(err);
   }
 }
 
 export async function getHobby(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const hobby = await Hobby.findById(req.params.hobbyId).populate("user");
+    const hobby = await Hobby.findOne({ _id: req.params.hobbyId, user: req.params.userId });
 
-    if (!hobby || (hobby.user as IUser).id !== req.params.userId) {
-      res.status(404);
-      res.json({ message: "Requested hobby does not exists" });
+    if (!hobby) {
+      res.status(404)
+        .json({ message: "Requested hobby does not exists" });
     } else {
-      res.json(hobby.toObject({ virtuals: true }));
+      res.json(hobby.toObject());
     }
   } catch (err) {
-    // TODO: Improve handling of model errors
     next(err);
   }
 }
 
 export async function getHobbies(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const hobbies = await Hobby.find({}).populate("user");
+    const hobbies = await Hobby.find({});
 
-    res.json(hobbies.map((hobby) => hobby.toObject({ virtuals: true })));
+    res.json(hobbies.map((hobby) => hobby.toObject()));
   } catch (err) {
     // TODO: Improve handling of model errors
     next(err);
@@ -45,9 +42,9 @@ export async function getHobbies(req: Request, res: Response, next: NextFunction
 
 export async function deleteHobby(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const hobby = await Hobby.findById(req.params.hobbyId).populate("user");
+    const hobby = await Hobby.findOne({ _id: req.params.hobbyId, user: req.params.userId });
 
-    if (!hobby || (hobby.user as IUser).id !== req.params.userId) {
+    if (!hobby) {
       res.status(404);
       res.json({ message: "Requested hobby does not exists" });
     } else {
@@ -56,7 +53,6 @@ export async function deleteHobby(req: Request, res: Response, next: NextFunctio
       res.status(204).end();
     }
   } catch (err) {
-    // TODO: Improve handling of model errors
     next(err);
   }
 }
