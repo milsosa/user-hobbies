@@ -12,7 +12,8 @@
   "database": {
     "host": "localhost",
     "name": "user-hobbies",
-    "port": 27017
+    "port": 27017,
+    "debug": true
     // "password": "{username}",
     // "username": "{password}"
   }
