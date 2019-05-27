@@ -1,18 +1,8 @@
 {
-  "api": {
-    "basePath": "/api/v1",
-    "uiBasePath": "/api-docs"
-  },
-  "server": {
-    "port": 3000
-  },
   "logging": {
     "level": "debug"
   },
   "database": {
-    "host": "localhost",
-    "name": "user-hobbies",
-    "port": 27017,
     "debug": true
     // "password": "{username}",
     // "username": "{password}"

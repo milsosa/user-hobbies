@@ -3,7 +3,7 @@ import express, { Application } from "express";
 import mongoose from "mongoose";
 import createMiddleware, { SwaggerMiddleware } from "swagger-express-middleware";
 import swaggerUi from "swagger-ui-express";
-import * as swaggerSpecJson from "./config/swagger.json";
+import * as swaggerSpecJson from "./api/swagger.json";
 import routes from "./controllers/routes";
 import errorHandler from "./middlewares/error-handler";
 import notFoundHandler from "./middlewares/not-found-handler";
