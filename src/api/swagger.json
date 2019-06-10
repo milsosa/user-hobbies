@@ -27,44 +27,10 @@
     "application/json"
   ],
   "definitions": {
-    "NewUser": {
-      "type": "object",
-      "title": "NewUser",
-      "required": [
-        "id",
-        "name"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "User": {
-      "type": "object",
-      "title": "User",
-      "required": [
-        "name"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "hobbies": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Hobby"
-          }
-        }
-      }
-    },
     "Hobby": {
       "type": "object",
-      "title": "Hobby",
       "required": [
+        "id",
         "name",
         "passionLevel",
         "year"
@@ -73,6 +39,37 @@
         "id": {
           "type": "string"
         },
+        "name": {
+          "type": "string"
+        },
+        "passionLevel": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        }
+      }
+    },
+    "UserPayload": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The user's name"
+        }
+      }
+    },
+    "HobbyPayload": {
+      "type": "object",
+      "required": [
+        "name",
+        "passionLevel",
+        "year"
+      ],
+      "properties": {
         "name": {
           "type": "string"
         },
@@ -90,16 +87,72 @@
         }
       }
     },
+    "UserResponse": {
+      "type": "object",
+      "required": [
+        "name",
+        "id",
+        "hobbies"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "hobbies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Hobby"
+          }
+        }
+      }
+    },
+    "HobbyResponse": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "passionLevel",
+        "year"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "passionLevel": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "ArrayOfUsers": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/User"
+        "$ref": "#/definitions/UserResponse"
       }
     },
     "ArrayOfHobbies": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Hobby"
+        "$ref": "#/definitions/HobbyResponse"
       }
     }
   },
@@ -109,10 +162,10 @@
         "tags": [
           "Users"
         ],
-        "description": "Fetch all users",
+        "description": "Fetch all users along with their hobbies",
         "responses": {
           "200": {
-            "description": "A list of users",
+            "description": "A list of users along with their hobbies",
             "schema": {
               "$ref": "#/definitions/ArrayOfUsers"
             }
@@ -128,18 +181,10 @@
           {
             "in": "body",
             "name": "payload",
-            "description": "The user's name",
+            "description": "The user's information",
             "required": true,
             "schema": {
-              "type": "object",
-              "required": [
-                "name"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string"
-                }
-              }
+              "$ref": "#/definitions/UserPayload"
             }
           }
         ],
@@ -148,7 +193,7 @@
             "description": "Returns the created user's id and name",
             "schema": {
               "type": "object",
-              "title": "NewUser",
+              "title": "User",
               "required": [
                 "id",
                 "name"
@@ -167,6 +212,29 @@
             "description": "Unable to create the user due to wrong sent data"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Deletes all the users along with their hobbies",
+        "responses": {
+          "200": {
+            "description": "Users and their hobbies deleted successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "deletedCount": {
+                  "type": "number",
+                  "description": "The number of deleted users"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/users/{userId}": {
@@ -174,6 +242,7 @@
         "tags": [
           "Users"
         ],
+        "description": "Retrieves a user along with its hobbies",
         "parameters": [
           {
             "name": "userId",
@@ -185,7 +254,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Return the user with the specified id"
+            "description": "Return the user with the specified id along with its hobbies",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
           },
           "404": {
             "description": "User not found"
@@ -196,10 +268,11 @@
         "tags": [
           "Users"
         ],
-        "description": "Deletes a user",
+        "description": "Deletes a user along with its hobbies",
         "parameters": [
           {
             "name": "userId",
+            "description": "The id of the user to delete",
             "in": "path",
             "required": true,
             "type": "string"
@@ -207,7 +280,7 @@
         ],
         "responses": {
           "204": {
-            "description": "User deleted successfully"
+            "description": "User and its hobbies deleted successfully"
           },
           "404": {
             "description": "User not found"
@@ -243,22 +316,22 @@
         "tags": [
           "Hobbies"
         ],
-        "description": "Create a new hobby for the user",
+        "description": "Create a new hobby for the specified user",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "The id of the user to retrieve its hobbies",
+            "description": "The id of the user to which the hobby belongs to",
             "type": "string"
           },
           {
             "name": "payload",
             "in": "body",
-            "description": "The user's hoby",
+            "description": "The hobby's information",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Hobby"
+              "$ref": "#/definitions/HobbyPayload"
             }
           }
         ],
@@ -274,6 +347,7 @@
         "tags": [
           "Hobbies"
         ],
+        "description": "Retrieves the specified hobby",
         "parameters": [
           {
             "name": "userId",
@@ -286,7 +360,7 @@
             "name": "hobbyId",
             "in": "path",
             "required": true,
-            "description": "The id of the user's hobby to retrieve",
+            "description": "The id of the hobby to retrieve",
             "type": "string"
           }
         ],
@@ -309,14 +383,14 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "The id of the user to retrieve the specified hobby",
+            "description": "The id of the user to delete the specified hobby",
             "type": "string"
           },
           {
             "name": "hobbyId",
             "in": "path",
             "required": true,
-            "description": "The id of the user's hobby to retrieve",
+            "description": "The id of the hobby to delete",
             "type": "string"
           }
         ],

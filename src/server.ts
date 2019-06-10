@@ -7,7 +7,7 @@ function startServer() {
   const port = config.get("server.port");
 
   app.listen(port, () => {
-      logger.debug("Application listening on: http://localhost:%d", port);
+    logger.debug("Application listening on: http://localhost:%d", port);
   });
 }
 

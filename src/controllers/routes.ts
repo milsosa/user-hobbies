@@ -11,13 +11,14 @@ function redirectToSwaggerUi(uiBasePath: string): RequestHandler {
 }
 
 function register(app: Application, basePath: string, uiBasePath: string): void {
-  const hobbiesRouter: Router = Router();
   const userRouter: Router = Router();
+  const hobbiesRouter: Router = Router({ mergeParams: true });
 
   userRouter
     .post("/users", users.createUser)
     .get("/users", users.getUsers)
     .get("/users/:userId", users.getUser)
+    .delete("/users", users.deleteUsers)
     .delete("/users/:userId", users.deleteUser);
 
   hobbiesRouter

@@ -1,0 +1,18 @@
+{
+  "api": {
+    "basePath": "/api/v1",
+    "uiBasePath": "/api-docs"
+  },
+  "server": {
+    "port": 3000
+  },
+  "logging": {
+    "level": "info"
+  },
+  "database": {
+    "host": "localhost",
+    "name": "user-hobbies",
+    "port": 27017,
+    "debug": false
+  }
+}
