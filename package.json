@@ -34,7 +34,7 @@
   "dependencies": {
     "config": "^3.1.0",
     "express": "^4.17.0",
-    "mongoose": "^5.5.10",
+    "mongoose": "^5.7.5",
     "swagger-express-middleware": "^2.0.2",
     "swagger-ui-express": "^4.0.4",
     "winston": "^3.2.1"
