@@ -25,7 +25,7 @@
     "@types/swagger-express-middleware": "^1.0.9",
     "@types/swagger-ui-express": "^3.0.0",
     "chai": "^4.2.0",
-    "mocha": "^6.1.4",
+    "mocha": "^10.2.0",
     "supertest": "^4.0.2",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
