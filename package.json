@@ -32,7 +32,7 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "config": "^3.1.0",
+    "config": "^3.3.8",
     "express": "^4.17.0",
     "mongoose": "^5.7.5",
     "swagger-express-middleware": "^2.0.2",
